@@ -39,12 +39,12 @@
                     document.getElementById('response-message').textContent = result.message;
                     document.getElementById('response-message').style.color = 'green';
                 } else {
-                    document.getElementById('response-message').textContent = "An error occurred.";
+                    document.getElementById('response-message').textContent = "An error occurred: " + (result.message || "Unknown error");
                     document.getElementById('response-message').style.color = 'red';
                 }
             } catch (error) {
                 console.error(error);
-                document.getElementById('response-message').textContent = "Network error. Please try again.";
+                document.getElementById('response-message').textContent = "Network error or CORS issue. Please check server configuration.";
                 document.getElementById('response-message').style.color = 'red';
             }
         }
