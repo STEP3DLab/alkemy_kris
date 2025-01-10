@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Link Request</title>
+    <script>
+        async function sendOrderId() {
+            const orderId = document.getElementById('order-id').value;
+            const url = "https://script.google.com/macros/s/AKfycbz83dA7ACuRet9d-7kFqlNTP8nBN2y2cBE9u0J5d5ql1RHvOmeGnwJyoi44znSyr4wnmQ/exec";
+
+            const data = {
+                order_id: orderId
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    document.getElementById('response-message').textContent = result.message;
+                    document.getElementById('response-message').style.color = 'green';
+                } else {
+                    document.getElementById('response-message').textContent = "An error occurred.";
+                    document.getElementById('response-message').style.color = 'red';
+                }
+            } catch (error) {
+                document.getElementById('response-message').textContent = "Network error. Please try again.";
+                document.getElementById('response-message').style.color = 'red';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Payment Link Request</h1>
+    <p>Enter Order Number</p>
+    <input type="text" id="order-id" placeholder="Order Number">
+    <button onclick="sendOrderId()">Submit</button>
+    <p id="response-message"></p>
+</body>
+</html>
