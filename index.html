@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,12 @@
         async function sendOrderId() {
             const orderId = document.getElementById('order-id').value;
             const url = "https://script.google.com/macros/s/AKfycbz83dA7ACuRet9d-7kFqlNTP8nBN2y2cBE9u0J5d5ql1RHvOmeGnwJyoi44znSyr4wnmQ/exec";
+
+            if (!orderId.trim()) {
+                document.getElementById('response-message').textContent = "Please enter a valid order number.";
+                document.getElementById('response-message').style.color = 'red';
+                return;
+            }
 
             const data = {
                 order_id: orderId
@@ -22,6 +29,10 @@
                     body: JSON.stringify(data)
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const result = await response.json();
 
                 if (result.status === "success") {
@@ -32,6 +43,7 @@
                     document.getElementById('response-message').style.color = 'red';
                 }
             } catch (error) {
+                console.error(error);
                 document.getElementById('response-message').textContent = "Network error. Please try again.";
                 document.getElementById('response-message').style.color = 'red';
             }
